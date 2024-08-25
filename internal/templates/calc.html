@@ -21,41 +21,45 @@
 
             h1 {
                 font-size: 36px;
-                margin-bottom: 30px;
-                color: #ffa726;
+                margin-bottom: 20px;
+                color: #ffa500;
             }
 
             .results {
-                background-color: #1e1e1e;
+                font-size: 24px;
+                line-height: 1.6;
+                text-align: center;
+                max-width: 400px;
+                margin: 0 auto;
                 padding: 20px;
                 border-radius: 10px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-                width: 80%;
-                max-width: 400px;
+                background-color: #1e1e1e;
             }
 
             .results div {
-                margin-bottom: 15px;
-                font-size: 18px;
+                margin: 10px 0;
             }
 
             .results strong {
-                color: #ffa726;
+                color: #ffa500;
             }
 
-            a {
+            .button {
                 display: inline-block;
                 margin-top: 20px;
                 padding: 10px 20px;
-                font-size: 16px;
-                text-decoration: none;
+                font-size: 18px;
                 color: #121212;
-                background-color: #ffa726;
+                background-color: #ffa500;
+                border: none;
                 border-radius: 5px;
-                transition: background-color 0.3s ease;
+                text-decoration: none;
+                transition:
+                    background-color 0.3s ease,
+                    color 0.3s ease;
             }
 
-            a:hover {
+            .button:hover {
                 background-color: #ff9800;
             }
         </style>
@@ -70,13 +74,13 @@
             }
 
             window.onload = function () {
-                document.getElementById("rising-start-time").textContent =
-                    formatLocalTime("{{.RisingStart}}");
-                document.getElementById("rising-end-time").textContent =
+                document.getElementById("rising-time").textContent =
+                    formatLocalTime("{{.RisingStart}}") +
+                    " - " +
                     formatLocalTime("{{.RisingEnd}}");
-                document.getElementById("setting-start-time").textContent =
-                    formatLocalTime("{{.SettingStart}}");
-                document.getElementById("setting-end-time").textContent =
+                document.getElementById("setting-time").textContent =
+                    formatLocalTime("{{.SettingStart}}") +
+                    " - " +
                     formatLocalTime("{{.SettingEnd}}");
             };
         </script>
@@ -86,23 +90,15 @@
         <h1>Golden Hour Results</h1>
         <div class="results">
             <div>
-                <strong>Rising Start:</strong>
-                <span id="rising-start-time"></span>
+                <strong>Rising:</strong>
+                <span id="rising-time"></span>
             </div>
             <div>
-                <strong>Rising End:</strong>
-                <span id="rising-end-time"></span>
-            </div>
-            <div>
-                <strong>Setting Start:</strong>
-                <span id="setting-start-time"></span>
-            </div>
-            <div>
-                <strong>Setting End:</strong>
-                <span id="setting-end-time"></span>
+                <strong>Setting:</strong>
+                <span id="setting-time"></span>
             </div>
 
-            <a href="/">New calculation</a>
+            <a href="/" class="button">New calculation</a>
         </div>
     </body>
 </html>
