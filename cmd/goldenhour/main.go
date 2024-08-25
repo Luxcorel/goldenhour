@@ -20,6 +20,7 @@ func main() {
 		Handler: router,
 	}
 
+	router.HandleFunc("GET /{$}", handlers.GetHome)
 	log.Printf("Starting server on :%v", *port)
 
 	err := server.ListenAndServe()
