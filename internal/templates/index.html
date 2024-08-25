@@ -5,9 +5,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Golden Hour Calculator</title>
     </head>
+
     <body>
         <h1>Golden Hour Calculator</h1>
-        <button onclick="getLocation()">Use My Location</button>
+
+        <button onmousedown="getLocation()">Use My Location</button>
+        <button onmousedown="submitPresetLocation(55.6, 13.0, 10)">
+            Malmö
+        </button>
 
         <form
             id="locationForm"
@@ -21,6 +26,14 @@
         </form>
 
         <script>
+            function submitPresetLocation(lat, lon, elev) {
+                document.getElementById("lat").value = lat;
+                document.getElementById("lon").value = lon;
+                document.getElementById("elev").value = elev;
+
+                document.getElementById("locationForm").submit();
+            }
+
             function getLocation() {
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(
