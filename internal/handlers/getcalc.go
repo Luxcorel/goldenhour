@@ -76,10 +76,10 @@ func (props *GetCalcProps) GetCalc(w http.ResponseWriter, r *http.Request) {
 	}
 
 	err = props.Template.Execute(w, &GetCalcTemplateProps{
-		RisingStart:  risingStart.UTC().String(),
-		RisingEnd:    risingEnd.UTC().String(),
-		SettingStart: settingStart.UTC().String(),
-		SettingEnd:   settingEnd.UTC().String(),
+		RisingStart:  risingStart.UTC().Format(time.RFC3339),
+		RisingEnd:    risingEnd.UTC().Format(time.RFC3339),
+		SettingStart: settingStart.UTC().Format(time.RFC3339),
+		SettingEnd:   settingEnd.UTC().Format(time.RFC3339),
 	})
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
