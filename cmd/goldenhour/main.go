@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/Luxcorel/goldenhour/internal/handlers"
 )
@@ -13,6 +14,10 @@ import (
 func main() {
 	port := flag.String("port", "8080", "Usage: -port [PORT]")
 	flag.Parse()
+	portEnv, portExists := os.LookupEnv("PORT")
+	if portExists {
+		port = &portEnv
+	}
 
 	router := http.NewServeMux()
 	server := http.Server{
