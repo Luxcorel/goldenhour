@@ -1,4 +1,4 @@
-module github.com/Luxcorel/golden-hour
+module github.com/Luxcorel/goldenhour
 
 go 1.22.5
 

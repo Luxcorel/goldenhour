@@ -7,7 +7,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/Luxcorel/golden-hour/internal/handlers"
+	"github.com/Luxcorel/goldenhour/internal/handlers"
 )
 
 func main() {
