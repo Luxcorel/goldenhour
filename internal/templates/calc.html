@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en" style="color-scheme: dark; text-align: center">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Golden Hour Results</title>
+
+        <script>
+            function formatLocalTime(utcString) {
+                const date = new Date(utcString);
+                return date.toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                });
+            }
+
+            window.onload = function () {
+                document.getElementById("rising-start-time").textContent =
+                    formatLocalTime("{{.RisingStart}}");
+                document.getElementById("rising-end-time").textContent =
+                    formatLocalTime("{{.RisingEnd}}");
+                document.getElementById("setting-start-time").textContent =
+                    formatLocalTime("{{.SettingStart}}");
+                document.getElementById("setting-end-time").textContent =
+                    formatLocalTime("{{.SettingEnd}}");
+            };
+        </script>
+    </head>
+
+    <body>
+        <h1>Golden Hour Results</h1>
+        <div class="results">
+            <div>
+                <strong>Rising Start:</strong>
+                <span id="rising-start-time"></span>
+            </div>
+            <div>
+                <strong>Rising End:</strong>
+                <span id="rising-end-time"></span>
+            </div>
+            <div>
+                <strong>Setting Start:</strong>
+                <span id="setting-start-time"></span>
+            </div>
+            <div>
+                <strong>Setting End:</strong>
+                <span id="setting-end-time"></span>
+            </div>
+
+            <a href="/">New calculation</a>
+        </div>
+    </body>
+</html>
