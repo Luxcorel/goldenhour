@@ -83,5 +83,7 @@ func (props *GetCalcProps) GetCalc(w http.ResponseWriter, r *http.Request) {
 	})
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
+	w.Header().Set("Cache-Control", "public, max-age=60")
 }
