@@ -29,47 +29,47 @@ func NewGetCalc() *GetCalcProps {
 }
 
 func (props *GetCalcProps) GetCalc(w http.ResponseWriter, r *http.Request) {
-	err := r.ParseForm()
-	if err != nil {
-		http.Error(w, "can't read query param data", http.StatusInternalServerError)
+	if err := r.ParseForm(); err != nil {
+		http.Error(w, "can't read query param data", http.StatusBadRequest)
 		return
 	}
 
-	lon := r.Form.Get("lon")
-	lat := r.Form.Get("lat")
-	elev := r.Form.Get("elev")
+	lonStr := r.Form.Get("lon")
+	latStr := r.Form.Get("lat")
+	elevStr := r.Form.Get("elev")
 
-	lonInt, err := strconv.ParseFloat(lon, 32)
+	lon, err := strconv.ParseFloat(lonStr, 64)
 	if err != nil {
 		http.Error(w, "invalid longitude", http.StatusBadRequest)
 		return
 	}
-	latInt, err := strconv.ParseFloat(lat, 32)
+
+	lat, err := strconv.ParseFloat(latStr, 64)
 	if err != nil {
 		http.Error(w, "invalid latitude", http.StatusBadRequest)
 		return
 	}
-	elevFloat, err := strconv.ParseFloat(elev, 32)
+
+	elev, err := strconv.ParseFloat(elevStr, 64)
 	if err != nil {
 		http.Error(w, "invalid elevation", http.StatusBadRequest)
 		return
 	}
 
-	risingStart, risingEnd, err := astral.GoldenHour(astral.Observer{
-		Latitude:  latInt,
-		Longitude: lonInt,
-		Elevation: elevFloat,
-	}, time.Now().UTC(), astral.SunDirection(1))
+	observer := astral.Observer{
+		Latitude:  lat,
+		Longitude: lon,
+		Elevation: elev,
+	}
+	now := time.Now().UTC()
+
+	risingStart, risingEnd, err := astral.GoldenHour(observer, now, astral.SunDirection(1))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	settingStart, settingEnd, err := astral.GoldenHour(astral.Observer{
-		Latitude:  latInt,
-		Longitude: lonInt,
-		Elevation: elevFloat,
-	}, time.Now().UTC(), astral.SunDirection(-1))
+	settingStart, settingEnd, err := astral.GoldenHour(observer, now, astral.SunDirection(-1))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -82,8 +82,9 @@ func (props *GetCalcProps) GetCalc(w http.ResponseWriter, r *http.Request) {
 		SettingEnd:   settingEnd.UTC().Format(time.RFC3339),
 	})
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, "failed to render template", http.StatusInternalServerError)
 		return
 	}
+
 	w.Header().Set("Cache-Control", "public, max-age=60")
 }
